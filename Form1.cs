@@ -526,6 +526,29 @@ namespace GOL
 				$"Details:\n\n{ex.StackTrace}");
 			}
 		}
+
+		public void RandomizeUniverse(int seed, bool offsetByTime = false)
+		{
+			Pause();
+
+			Random r;
+
+			if (offsetByTime)
+				r = new Random(seed + System.DateTime.Now.Millisecond + System.DateTime.Now.Second + System.DateTime.Now.Minute + System.DateTime.Now.Hour);
+			else
+				r = new Random(seed);
+
+
+			for (int i = 0; i < SimUniverse.GetLength(1); i++)
+			{
+				for (int j = 0; j < SimUniverse.GetLength(0); j++)
+				{
+					SimUniverse[j, i] = Convert.ToBoolean(r.Next(2));
+				}
+			}
+
+			Refresh();
+		}
 #endif
 	}
 }

@@ -82,5 +82,13 @@ namespace GOL
 				form.Refresh();
 			}
 		}
+
+		private void RandomizeButton_Click(object sender, EventArgs e)
+		{
+			if(OffsetByTimeCheckBox.Checked)
+				form.RandomizeUniverse(Convert.ToInt32(RandomizeSeed.Value), true);
+			else
+				form.RandomizeUniverse(Convert.ToInt32(RandomizeSeed.Value));
+		}
 	}
 }

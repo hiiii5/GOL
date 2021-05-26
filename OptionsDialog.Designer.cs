@@ -36,13 +36,18 @@ namespace GOL
 			this.WidthBox = new System.Windows.Forms.NumericUpDown();
 			this.cellHeightLabel = new System.Windows.Forms.Label();
 			this.HeightBox = new System.Windows.Forms.NumericUpDown();
-			this.comboBox1 = new System.Windows.Forms.ComboBox();
 			this.SimulationTypeLabel = new System.Windows.Forms.Label();
+			this.comboBox1 = new System.Windows.Forms.ComboBox();
 			this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+			this.RandomizeButton = new System.Windows.Forms.Button();
+			this.RandomizeSeed = new System.Windows.Forms.NumericUpDown();
+			this.SeedLabel = new System.Windows.Forms.Label();
+			this.OffsetByTimeCheckBox = new System.Windows.Forms.CheckBox();
 			this.flowLayoutPanel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.IntervalBox)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.WidthBox)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.HeightBox)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.RandomizeSeed)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// flowLayoutPanel1
@@ -55,6 +60,10 @@ namespace GOL
 			this.flowLayoutPanel1.Controls.Add(this.HeightBox);
 			this.flowLayoutPanel1.Controls.Add(this.SimulationTypeLabel);
 			this.flowLayoutPanel1.Controls.Add(this.comboBox1);
+			this.flowLayoutPanel1.Controls.Add(this.SeedLabel);
+			this.flowLayoutPanel1.Controls.Add(this.RandomizeSeed);
+			this.flowLayoutPanel1.Controls.Add(this.RandomizeButton);
+			this.flowLayoutPanel1.Controls.Add(this.OffsetByTimeCheckBox);
 			this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
 			this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(10);
@@ -153,6 +162,16 @@ namespace GOL
             0});
 			this.HeightBox.ValueChanged += new System.EventHandler(this.HeightBox_ValueChanged);
 			// 
+			// SimulationTypeLabel
+			// 
+			this.SimulationTypeLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+			this.SimulationTypeLabel.AutoSize = true;
+			this.SimulationTypeLabel.Location = new System.Drawing.Point(73, 105);
+			this.SimulationTypeLabel.Name = "SimulationTypeLabel";
+			this.SimulationTypeLabel.Size = new System.Drawing.Size(82, 13);
+			this.SimulationTypeLabel.TabIndex = 7;
+			this.SimulationTypeLabel.Text = "Simulation Type";
+			// 
 			// comboBox1
 			// 
 			this.comboBox1.FormattingEnabled = true;
@@ -165,19 +184,49 @@ namespace GOL
 			this.comboBox1.TabIndex = 6;
 			this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
 			// 
-			// SimulationTypeLabel
-			// 
-			this.SimulationTypeLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
-			this.SimulationTypeLabel.AutoSize = true;
-			this.SimulationTypeLabel.Location = new System.Drawing.Point(73, 105);
-			this.SimulationTypeLabel.Name = "SimulationTypeLabel";
-			this.SimulationTypeLabel.Size = new System.Drawing.Size(82, 13);
-			this.SimulationTypeLabel.TabIndex = 7;
-			this.SimulationTypeLabel.Text = "Simulation Type";
-			// 
 			// backgroundWorker1
 			// 
 			this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+			// 
+			// RandomizeButton
+			// 
+			this.RandomizeButton.Location = new System.Drawing.Point(73, 154);
+			this.RandomizeButton.Name = "RandomizeButton";
+			this.RandomizeButton.Size = new System.Drawing.Size(75, 23);
+			this.RandomizeButton.TabIndex = 8;
+			this.RandomizeButton.Text = "Randomize";
+			this.RandomizeButton.UseVisualStyleBackColor = true;
+			this.RandomizeButton.Click += new System.EventHandler(this.RandomizeButton_Click);
+			// 
+			// RandomizeSeed
+			// 
+			this.RandomizeSeed.Location = new System.Drawing.Point(111, 128);
+			this.RandomizeSeed.Name = "RandomizeSeed";
+			this.RandomizeSeed.Size = new System.Drawing.Size(120, 20);
+			this.RandomizeSeed.TabIndex = 9;
+			// 
+			// SeedLabel
+			// 
+			this.SeedLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.SeedLabel.AutoSize = true;
+			this.SeedLabel.Location = new System.Drawing.Point(73, 131);
+			this.SeedLabel.Name = "SeedLabel";
+			this.SeedLabel.Size = new System.Drawing.Size(32, 13);
+			this.SeedLabel.TabIndex = 10;
+			this.SeedLabel.Text = "Seed";
+			this.SeedLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// OffsetByTimeCheckBox
+			// 
+			this.OffsetByTimeCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.OffsetByTimeCheckBox.AutoSize = true;
+			this.OffsetByTimeCheckBox.Location = new System.Drawing.Point(154, 157);
+			this.OffsetByTimeCheckBox.Name = "OffsetByTimeCheckBox";
+			this.OffsetByTimeCheckBox.Size = new System.Drawing.Size(126, 17);
+			this.OffsetByTimeCheckBox.TabIndex = 11;
+			this.OffsetByTimeCheckBox.Text = "Offset by current time";
+			this.OffsetByTimeCheckBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.OffsetByTimeCheckBox.UseVisualStyleBackColor = true;
 			// 
 			// OptionsDialog
 			// 
@@ -192,6 +241,7 @@ namespace GOL
 			((System.ComponentModel.ISupportInitialize)(this.IntervalBox)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.WidthBox)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.HeightBox)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.RandomizeSeed)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -208,5 +258,9 @@ namespace GOL
 		private System.Windows.Forms.Label SimulationTypeLabel;
 		private System.Windows.Forms.ComboBox comboBox1;
 		private System.ComponentModel.BackgroundWorker backgroundWorker1;
+		private System.Windows.Forms.Label SeedLabel;
+		private System.Windows.Forms.NumericUpDown RandomizeSeed;
+		private System.Windows.Forms.Button RandomizeButton;
+		private System.Windows.Forms.CheckBox OffsetByTimeCheckBox;
 	}
 }
