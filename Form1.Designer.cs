@@ -51,6 +51,7 @@ namespace GOL
 			this.NextToolstripButton = new System.Windows.Forms.ToolStripButton();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.toolStripStatusLabelGenerations = new System.Windows.Forms.ToolStripStatusLabel();
+			this.AliveCellsLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.graphicsPanel1 = new GOL.GraphicsPanel();
 			this.menuStrip1.SuspendLayout();
 			this.toolStrip1.SuspendLayout();
@@ -236,7 +237,8 @@ namespace GOL
 			// statusStrip1
 			// 
 			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabelGenerations});
+            this.toolStripStatusLabelGenerations,
+            this.AliveCellsLabel});
 			this.statusStrip1.Location = new System.Drawing.Point(0, 323);
 			this.statusStrip1.Name = "statusStrip1";
 			this.statusStrip1.Size = new System.Drawing.Size(573, 22);
@@ -248,6 +250,12 @@ namespace GOL
 			this.toolStripStatusLabelGenerations.Name = "toolStripStatusLabelGenerations";
 			this.toolStripStatusLabelGenerations.Size = new System.Drawing.Size(90, 17);
 			this.toolStripStatusLabelGenerations.Text = "Generations = 0";
+			// 
+			// AliveCellsLabel
+			// 
+			this.AliveCellsLabel.Name = "AliveCellsLabel";
+			this.AliveCellsLabel.Size = new System.Drawing.Size(81, 17);
+			this.AliveCellsLabel.Text = "Alive Cells = 0";
 			// 
 			// graphicsPanel1
 			// 
@@ -311,6 +319,7 @@ namespace GOL
 		private System.Windows.Forms.ToolStripButton pauseToolStripButton;
 		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelGenerations;
 		private System.Windows.Forms.ToolStripButton NextToolstripButton;
+		private System.Windows.Forms.ToolStripStatusLabel AliveCellsLabel;
 	}
 }
 

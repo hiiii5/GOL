@@ -223,6 +223,22 @@ namespace GOL
 
 			// Update status strip generations
 			toolStripStatusLabelGenerations.Text = "Generations = " + simGenerations.ToString();
+			AliveCellsLabel.Text = "Alive Cells = " + CountAliveCells();
+		}
+
+		private int CountAliveCells()
+		{
+			int ret = 0;
+			for (int y = 0; y < SimUniverse.GetLength(1); y++)
+			{
+				for (int x = 0; x < SimUniverse.GetLength(0); x++)
+				{
+					if (SimUniverse[x, y])
+						ret++;
+				}
+			}
+
+			return ret;
 		}
 
 		// The event called by the timer every Interval milliseconds.
@@ -317,8 +333,11 @@ namespace GOL
 				// Toggle the cell's state
 				SimUniverse[x, y] = !SimUniverse[x, y];
 
+				toolStripStatusLabelGenerations.Text = "Generations = " + simGenerations.ToString();
+				AliveCellsLabel.Text = "Alive Cells = " + CountAliveCells();
 				// Tell Windows you need to repaint
 				graphicsPanel1.Invalidate();
+				
 			}
 		}
 
@@ -443,6 +462,7 @@ namespace GOL
 			simGenerations = s.Generations;
 			SimUniverse = s.Universe;
 			toolStripStatusLabelGenerations.Text = "Generations = " + simGenerations.ToString();
+			AliveCellsLabel.Text = "Alive Cells = " + CountAliveCells();
 			Refresh();
 		}
 
