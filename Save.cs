@@ -24,6 +24,7 @@ namespace GOL
 		{
 			Width = width;
 			Height = height;
+			Interval = interval;
 			DeathColor = deathColor;
 			LifeColor = lifeColor;
 			GridColor = gridColor;
@@ -51,7 +52,7 @@ namespace GOL
 		public static bool[,] ParseUniverse(string universe)
 		{
 			// Remove array openings
-			universe = universe.Substring(1, universe.Length-1);
+			universe = universe.Substring(1, universe.Length-2);
 			string[] splitUniverse = universe.Split('/');
 			List<string[]> list = new List<string[]>();
 
@@ -65,7 +66,7 @@ namespace GOL
 
 			for (int i = 0; i < list.Count; i++)
 			{
-				for (int j = 0; j < list[i].Length; j++)
+				for (int j = 0; j < list[0].Length; j++)
 				{
 					ret[j, i] = bool.Parse(list.ToArray()[j][i]);
 				}

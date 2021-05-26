@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Security;
 using System.Windows.Forms;
 
 namespace GOL
@@ -306,7 +307,7 @@ namespace GOL
 #if Dustin_Code
 		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			this.Close();
+			Close();
 		}
 
 		private void startToolStripButton_Click(object sender, EventArgs e)
@@ -330,31 +331,12 @@ namespace GOL
 
 		private void newToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			Pause();
-			SimUniverse = new bool[UniverseWidth, UniverseHeight];
-			for (int i = 0; i < SimUniverse.GetLength(1); i++)
-			{
-				for (int j = 0; j < SimUniverse.GetLength(0); j++)
-				{
-					SimUniverse[j, i] = false;
-				}
-			}
-			Refresh();
+			NewFile();
 		}
 
 		private void newToolStripButton_Click(object sender, EventArgs e)
 		{
-			Pause();
-			SimUniverse = new bool[UniverseWidth, UniverseHeight];
-			for (int i = 0; i < SimUniverse.GetLength(1); i++)
-			{
-				for (int j = 0; j < SimUniverse.GetLength(0); j++)
-				{
-					SimUniverse[j, i] = false;
-				}
-			}
-			simGenerations = 0;
-			Refresh();
+			NewFile();
 		}
 
 		private void NextToolstripButton_Click(object sender, EventArgs e)
@@ -368,23 +350,42 @@ namespace GOL
 			dialog.Show();
 		}
 
-		private void saveToolStripButton_Click(object sender, EventArgs e)
+		private byte[] ProcessDataToSave(string filename)
 		{
-			
-		}
+			string width       = "width:" + UniverseWidth.ToString();
+			string height      = "height:" + UniverseHeight.ToString();
+			string interval    = "interval:" + Interval.ToString();
+			string deathColor  = "deathColor:" + DeathColor.R.ToString() + "," + DeathColor.G.ToString() + "," + DeathColor.B.ToString();
+			string lifeColor   = "lifeColor:" + LifeColor.R.ToString() + "," + LifeColor.G.ToString() + "," + LifeColor.B.ToString();
+			string gridColor   = "gridColor:" + GridColor.R.ToString() + "," + GridColor.G.ToString() + "," + GridColor.B.ToString();
+			string cellColor   = "cellColor:" + CellColor.R.ToString() + "," + CellColor.G.ToString() + "," + CellColor.B.ToString();
+			string isToroidal  = "isToroidal:" + SimulationIsToroidal.ToString();
+			string generations = "generations:" + simGenerations.ToString();
+			string universe    = "universe:[";
 
-		private void SaveToFile(string filepath)
-		{
-			if(!filepath.Contains(".sav"))
+			for (int i = 0; i < SimUniverse.GetLength(1); i++)
 			{
-				filepath += ".sav";
+				for (int j = 0; j < SimUniverse.GetLength(0); j++)
+				{
+					universe += SimUniverse[j, i].ToString() + ",";
+				}
+				if (i != SimUniverse.GetLength(1) - 1)
+				{
+					universe = universe.Substring(0, universe.Length - 1);
+					universe += "/";
+				}
 			}
+			universe = universe.Substring(0, universe.Length - 1);
+			universe += "]";
 
+			string ret = width + ";\n" + height + ";\n" + interval + ";\n" + deathColor + ";\n" + lifeColor + ";\n" + gridColor + ";\n" + cellColor + ";\n" + isToroidal + ";\n" + generations + ";\n" + universe + ";";
 
+			return System.Text.Encoding.Unicode.GetBytes(ret);
 		}
 
 		private void ProcessSave(List<string> data, char dataSeperator = ':')
 		{
+			Pause();
 			// setup data
 			string width = data[0].Split(dataSeperator)[1];
 			string height = data[1].Split(dataSeperator)[1];
@@ -420,22 +421,19 @@ namespace GOL
 			SimulationIsToroidal = s.IsToroidal;
 			simGenerations = s.Generations;
 			SimUniverse = s.Universe;
+			toolStripStatusLabelGenerations.Text = "Generations = " + simGenerations.ToString();
+			Refresh();
 		}
 
 		private List<string> LoadSave(string filepath, char lineSeperator = ';')
 		{
-			if (!filepath.Contains(".sav"))
-			{
-				filepath += ".sav";
-			}
-
 			List<string> ret = null;
 
 			if (!File.Exists(filepath))
 				return null;
 
 			string text = "";
-			using (StreamReader stream = new StreamReader(@filepath))
+			using (StreamReader stream = new StreamReader(@filepath, encoding: System.Text.Encoding.Unicode))
 			{
 				 text = stream.ReadToEnd();
 				stream.Close();
@@ -443,6 +441,7 @@ namespace GOL
 
 			if (text == string.Empty || text == "" || text == "\0")
 				return null;
+			text.Replace("\n", string.Empty);
 
 			string[] split = text.Split(lineSeperator);
 
@@ -452,6 +451,79 @@ namespace GOL
 				ret.Add(s);
 
 			return ret;
+		}
+
+		private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			ShowSaveDialog();
+		}
+		private void saveToolStripButton_Click(object sender, EventArgs e)
+		{
+			ShowSaveDialog();
+		}
+
+		private void openToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			ShowOpenFileDialog();
+		}
+
+		private void ShowSaveDialog()
+		{
+			SaveFileDialog dialog = new SaveFileDialog();
+			dialog.Filter = "Text File|*.txt";
+			dialog.Title = "Save GOL";
+
+			if (dialog.ShowDialog() == DialogResult.OK)
+			{
+				if (dialog.FileName != "")
+				{
+					FileStream fs = (FileStream)dialog.OpenFile();
+					byte[] save = ProcessDataToSave(dialog.FileName);
+					fs.Write(save, 0, save.Length);
+					fs.Close();
+				}
+			}
+		}
+
+		private void NewFile()
+		{
+			Pause();
+
+			SimUniverse = new bool[UniverseWidth, UniverseHeight];
+			for (int i = 0; i < SimUniverse.GetLength(1); i++)
+			{
+				for (int j = 0; j < SimUniverse.GetLength(0); j++)
+				{
+					SimUniverse[j, i] = false;
+				}
+			}
+			simGenerations = 0;
+			toolStripStatusLabelGenerations.Text = "Generations = " + simGenerations.ToString();
+
+			Refresh();
+		}
+
+		private void openToolStripButton_Click(object sender, EventArgs e)
+		{
+			ShowOpenFileDialog();
+		}
+
+		private void ShowOpenFileDialog()
+		{
+			OpenFileDialog dialog = new OpenFileDialog();
+			dialog.Filter = "Text File|*.txt";
+			dialog.Title = "Load GOL";
+
+			try
+			{
+				if (dialog.ShowDialog() == DialogResult.OK)
+					ProcessSave(LoadSave(dialog.FileName));
+			}
+			catch (SecurityException ex)
+			{
+				MessageBox.Show($"Security error.\n\nError message: {ex.Message}\n\n" +
+				$"Details:\n\n{ex.StackTrace}");
+			}
 		}
 #endif
 	}
