@@ -70,9 +70,6 @@ namespace GOL
 
 		public void ResizeWorld(int width, int height)
 		{
-			if(optionsDialog != null)
-				optionsDialog.UpdateValues();
-
 			bool[,] temp = new bool[width, height];
 
 			for (int y = 0; y < height - 1; y++)
@@ -295,6 +292,10 @@ namespace GOL
 				int x = e.X / cellWidth;
 				// CELL Y = MOUSE Y / CELL HEIGHT
 				int y = e.Y / cellHeight;
+
+				// Check for clicking out of bounds
+				if (x >= SimUniverse.GetLength(0) || y >= SimUniverse.GetLength(1) || x < 0 || y < 0)
+					return;
 
 				// Toggle the cell's state
 				SimUniverse[x, y] = !SimUniverse[x, y];
