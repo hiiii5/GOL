@@ -1,0 +1,10 @@
+width:10;
+height:10;
+interval:20;
+deathColor:255,0,0;
+lifeColor:0,255,0;
+gridColor:0,0,0;
+cellColor:125,125,125;
+isToroidal:true;
+generations:0;
+universe:[];
