@@ -46,6 +46,7 @@ namespace GOL
 			this.GridColorDialog = new System.Windows.Forms.ColorDialog();
 			this.LiveColorDialog = new System.Windows.Forms.ColorDialog();
 			this.DeathColorDialog = new System.Windows.Forms.ColorDialog();
+			this.DisplayNeighborsCheckBox = new System.Windows.Forms.CheckBox();
 			this.flowLayoutPanel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -63,17 +64,18 @@ namespace GOL
 			this.flowLayoutPanel1.Controls.Add(this.DeathColorLabel);
 			this.flowLayoutPanel1.Controls.Add(this.button2);
 			this.flowLayoutPanel1.Controls.Add(this.DeathColorSelectionDisplay);
+			this.flowLayoutPanel1.Controls.Add(this.DisplayNeighborsCheckBox);
 			this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
 			this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(10);
 			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
 			this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(50, 20, 50, 0);
-			this.flowLayoutPanel1.Size = new System.Drawing.Size(214, 157);
+			this.flowLayoutPanel1.Size = new System.Drawing.Size(214, 169);
 			this.flowLayoutPanel1.TabIndex = 1;
 			// 
 			// CellColorLabel
 			// 
-			this.CellColorLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+			this.CellColorLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.CellColorLabel.AutoSize = true;
 			this.CellColorLabel.Location = new System.Drawing.Point(53, 28);
 			this.CellColorLabel.Name = "CellColorLabel";
@@ -102,8 +104,9 @@ namespace GOL
 			// 
 			// GridColorLabel
 			// 
+			this.GridColorLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.GridColorLabel.AutoSize = true;
-			this.GridColorLabel.Location = new System.Drawing.Point(53, 49);
+			this.GridColorLabel.Location = new System.Drawing.Point(53, 57);
 			this.GridColorLabel.Name = "GridColorLabel";
 			this.GridColorLabel.Size = new System.Drawing.Size(50, 13);
 			this.GridColorLabel.TabIndex = 3;
@@ -130,8 +133,9 @@ namespace GOL
 			// 
 			// LiveColorLabel
 			// 
+			this.LiveColorLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.LiveColorLabel.AutoSize = true;
-			this.LiveColorLabel.Location = new System.Drawing.Point(53, 78);
+			this.LiveColorLabel.Location = new System.Drawing.Point(53, 86);
 			this.LiveColorLabel.Name = "LiveColorLabel";
 			this.LiveColorLabel.Size = new System.Drawing.Size(51, 13);
 			this.LiveColorLabel.TabIndex = 6;
@@ -158,8 +162,9 @@ namespace GOL
 			// 
 			// DeathColorLabel
 			// 
+			this.DeathColorLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.DeathColorLabel.AutoSize = true;
-			this.DeathColorLabel.Location = new System.Drawing.Point(53, 107);
+			this.DeathColorLabel.Location = new System.Drawing.Point(53, 115);
 			this.DeathColorLabel.Name = "DeathColorLabel";
 			this.DeathColorLabel.Size = new System.Drawing.Size(60, 13);
 			this.DeathColorLabel.TabIndex = 9;
@@ -190,11 +195,24 @@ namespace GOL
 			this.CellColorDialog.FullOpen = true;
 			this.CellColorDialog.SolidColorOnly = true;
 			// 
+			// DisplayNeighborsCheckBox
+			// 
+			this.DisplayNeighborsCheckBox.AutoSize = true;
+			this.DisplayNeighborsCheckBox.Checked = true;
+			this.DisplayNeighborsCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.DisplayNeighborsCheckBox.Location = new System.Drawing.Point(53, 139);
+			this.DisplayNeighborsCheckBox.Name = "DisplayNeighborsCheckBox";
+			this.DisplayNeighborsCheckBox.Size = new System.Drawing.Size(111, 17);
+			this.DisplayNeighborsCheckBox.TabIndex = 12;
+			this.DisplayNeighborsCheckBox.Text = "Display Neighbors";
+			this.DisplayNeighborsCheckBox.UseVisualStyleBackColor = true;
+			this.DisplayNeighborsCheckBox.CheckedChanged += new System.EventHandler(this.DisplayNeighborsCheckBox_CheckedChanged);
+			// 
 			// CustomizeDialog
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(214, 157);
+			this.ClientSize = new System.Drawing.Size(214, 169);
 			this.Controls.Add(this.flowLayoutPanel1);
 			this.Name = "CustomizeDialog";
 			this.Text = "CustomizeDialog";
@@ -222,5 +240,6 @@ namespace GOL
 		private System.Windows.Forms.TextBox DeathColorSelectionDisplay;
 		private System.Windows.Forms.ColorDialog LiveColorDialog;
 		private System.Windows.Forms.ColorDialog DeathColorDialog;
+		private System.Windows.Forms.CheckBox DisplayNeighborsCheckBox;
 	}
 }

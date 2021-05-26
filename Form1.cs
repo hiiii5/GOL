@@ -28,6 +28,8 @@ namespace GOL
 		public static Color CellColor = Color.Gray;
 
 		public bool SimulationIsToroidal = true;
+
+		public bool ShowAliveNeighbors = true;
 #endif
 
 		// The universe array
@@ -47,6 +49,22 @@ namespace GOL
 			timer.Interval = Interval; // milliseconds
 			timer.Tick += Timer_Tick;
 			timer.Enabled = true; // start timer running
+			FormClosed += Close;
+
+			if(File.Exists("autosave.txt"))
+			{
+				ProcessSave(LoadSave("autosave.txt"));
+			}
+		}
+
+		private void Close(object sender, FormClosedEventArgs args)
+		{
+			using (FileStream fs = File.Create("autosave.txt"))
+			{
+				byte[] save = ProcessDataToSave("autosave.txt");
+				fs.Write(save, 0, save.Length);
+				fs.Close();
+			}
 		}
 
 #if Dustin_Code
@@ -168,7 +186,6 @@ namespace GOL
 		// Calculate the next generation of cells
 		private void NextGeneration()
 		{
-
 			bool[,] temp = new bool[SimUniverse.GetLength(0), SimUniverse.GetLength(1)];
 
 			for (int y = 0; y < SimUniverse.GetLength(1); y++)
@@ -206,7 +223,6 @@ namespace GOL
 
 			// Update status strip generations
 			toolStripStatusLabelGenerations.Text = "Generations = " + simGenerations.ToString();
-			
 		}
 
 		// The event called by the timer every Interval milliseconds.
@@ -268,7 +284,8 @@ namespace GOL
 						else
 							cellBrush = new SolidBrush(DeathColor);
 					}
-					if(neighbors >= 1)
+
+					if(neighbors >= 1 && ShowAliveNeighbors)
 						e.Graphics.DrawString(neighbors.ToString(), DefaultFont, cellBrush, cellRect.Location);
 				}
 			}
@@ -364,13 +381,13 @@ namespace GOL
 			string generations = "generations:" + simGenerations.ToString();
 			string universe    = "universe:[";
 
-			for (int i = 0; i < SimUniverse.GetLength(1); i++)
+			for (int y = 0; y < SimUniverse.GetLength(1); y++)
 			{
-				for (int j = 0; j < SimUniverse.GetLength(0); j++)
+				for (int x = 0; x < SimUniverse.GetLength(0); x++)
 				{
-					universe += SimUniverse[j, i].ToString() + ",";
+					universe += SimUniverse[x, y].ToString() + ",";
 				}
-				if (i != SimUniverse.GetLength(1) - 1)
+				if (y != SimUniverse.GetLength(1) - 1)
 				{
 					universe = universe.Substring(0, universe.Length - 1);
 					universe += "/";
@@ -386,6 +403,9 @@ namespace GOL
 
 		private void ProcessSave(List<string> data, char dataSeperator = ':')
 		{
+			if (data == null)
+				return;
+
 			Pause();
 			// setup data
 			string width = data[0].Split(dataSeperator)[1];
@@ -491,11 +511,11 @@ namespace GOL
 			Pause();
 
 			SimUniverse = new bool[UniverseWidth, UniverseHeight];
-			for (int i = 0; i < SimUniverse.GetLength(1); i++)
+			for (int y = 0; y < SimUniverse.GetLength(1); y++)
 			{
-				for (int j = 0; j < SimUniverse.GetLength(0); j++)
+				for (int x = 0; x < SimUniverse.GetLength(0); x++)
 				{
-					SimUniverse[j, i] = false;
+					SimUniverse[x, y] = false;
 				}
 			}
 			simGenerations = 0;
@@ -538,12 +558,11 @@ namespace GOL
 			else
 				r = new Random(seed);
 
-
-			for (int i = 0; i < SimUniverse.GetLength(1); i++)
+			for (int y = 0; y < SimUniverse.GetLength(1); y++)
 			{
-				for (int j = 0; j < SimUniverse.GetLength(0); j++)
+				for (int x = 0; x < SimUniverse.GetLength(0); x++)
 				{
-					SimUniverse[j, i] = Convert.ToBoolean(r.Next(2));
+					SimUniverse[x, y] = Convert.ToBoolean(r.Next(2));
 				}
 			}
 

@@ -64,11 +64,11 @@ namespace GOL
 			// Error on non uniform lengths
 			bool[,] ret = new bool[list.Count, list[0].Length];
 
-			for (int i = 0; i < list.Count; i++)
+			for (int y = 0; y < list.Count; y++)
 			{
-				for (int j = 0; j < list[0].Length; j++)
+				for (int x = 0; x < list[0].Length; x++)
 				{
-					ret[j, i] = bool.Parse(list.ToArray()[j][i]);
+					ret[x, y] = bool.Parse(list.ToArray()[y][x]);
 				}
 			}
 

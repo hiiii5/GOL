@@ -58,5 +58,11 @@ namespace GOL
 
 			localCopy.Refresh();
 		}
+
+		private void DisplayNeighborsCheckBox_CheckedChanged(object sender, EventArgs e)
+		{
+			localCopy.ShowAliveNeighbors = DisplayNeighborsCheckBox.Checked;
+			localCopy.Refresh();
+		}
 	}
 }
